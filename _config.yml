@@ -1,15 +1,15 @@
-# ---------------------------------------------------------------
+﻿# ---------------------------------------------------------------
 # Jekyll & Global Configuration
 ## Docs: https://jekyllrb.com/docs/configuration/
 # ---------------------------------------------------------------
 
 # Site
-title: NexT
+title: blog
 subtitle:
-description:
-author: John Doe
+description : 个人学习
+author: sevenheart
 # Support language: de, en, fr-FR, id, ja, ko, pt-BR, pt, ru, zh-Hans, zh-hk, zh-tw
-language: en
+language:  zh-hk
 date_format: '%Y-%m-%d'
 
 # URL
@@ -19,7 +19,7 @@ baseurl:
 permalink: pretty
 
 # Pagination
-paginate: 10
+paginate: 6
 #paginate_path: "/page:num/"
 #archive:
   #paginate: 10
@@ -226,7 +226,7 @@ social_icons:
   enable: true
   # Icon Mappings.
   # KeyMapsToSocialItemKey: NameOfTheIconFromFontAwesome
-  GitHub: github
+  GitHub: https://github.com/sevenheart
   Twitter: twitter
   Weibo: weibo
 
@@ -736,3 +736,5 @@ images: assets/images
 
 # Theme version
 version: 5.1.1
+
+repository: sevenheart/sevenheart.github.io.
