@@ -1,15 +1,17 @@
 ---
-title: jekyll搭博客的流程及问题记录
-description: jekyll遇到的问题
+title:  jekyll搭博客的问题
+date: 2018-12-24 23:31:06
 categories:
- - jekyll
+- jekyll
 tags:
  - jekyll
  - ruby
 typora-root-url: ..\sources
 ---
 
-## Screenshots
+
+
+#### jekyll遇到的问题记录
 
 #### 本地环境搭建
 

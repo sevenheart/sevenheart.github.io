@@ -1,12 +1,11 @@
 ---
-title:  IO模型
+title:  Io模型及java中的IO接口
 date: 2018-12-24 23:31:06
 categories:
 - OS
 tags:
 - JAVA
 - IO、NIO、AIO
-typora-root-url: /sources
 ---
 
 ### Linux五种IO模型
