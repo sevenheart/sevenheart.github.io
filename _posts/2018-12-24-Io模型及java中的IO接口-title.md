@@ -6,7 +6,7 @@ categories:
 tags:
 - JAVA
 - IO、NIO、AIO
-typora-root-url: ..\sources
+typora-root-url: ..\..\..\..\..\sources
 ---
 
 ### Linux五种IO模型
