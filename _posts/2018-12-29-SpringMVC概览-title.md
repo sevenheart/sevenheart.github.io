@@ -11,19 +11,19 @@ tags:
 
 ##### 一、请求流程：
 
-![](../sources/img/springmvc执行流程.png)
+![](../../../sources/img/springmvc执行流程.png)
 
 ##### 二、请求处理过程概述及内部执行流程
 
-![](../sources/img/springmvc处理流程.png)
+![](../../../sources/img/springmvc处理流程.png)
 
-![](../sources/img/springmvc内部执行流程.png)
+![](../../../sources/img/springmvc内部执行流程.png)
 
 ##### 三、源码流程概览
 
-![](../sources/img/DisparchServlet初始化.png)
+![](../../../sources/img/DisparchServlet初始化.png)
 
-![](../sources/img/springmvc中各组件的做法.png)
+![](../../../sources/img/springmvc中各组件的做法.png)
 
 **解析：**
 

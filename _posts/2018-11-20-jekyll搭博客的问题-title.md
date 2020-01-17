@@ -43,7 +43,7 @@ https://rubyinstaller.org/downloads/地址这是ruby的下载地址。
 
 问题：还是版本问题按照他给的解决方案安装对应的版本即可。
 
-![](/img\bundlerError.png)
+![](../../../sources/img/bundlerError.png)
 
 4.Run your Jekyll site locally: 
 
@@ -55,7 +55,7 @@ bundle exec jekyll server
 
 错误：
 
-![](/img\jekyllserveError.png)
+![](../../../sources/img/jekyllserveError.png)
 
 这里的问题是在配置文件中找不到仓库的配置，去config文件配一下即可。
 
