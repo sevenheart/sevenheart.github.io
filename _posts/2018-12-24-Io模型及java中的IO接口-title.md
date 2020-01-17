@@ -6,7 +6,7 @@ categories:
 tags:
 - JAVA
 - IO、NIO、AIO
-typora-root-url: ..\..\..\..\..\sources
+typora-root-url: /sources
 ---
 
 ### Linux五种IO模型
@@ -69,3 +69,4 @@ mmap()会返回一个指针ptr，它指向进程逻辑地址空间中的一个�
 https://blog.csdn.net/xiaobangkuaipao/article/details/76789545
 
 ![](img/DisparchServlet初始化.png)
+
