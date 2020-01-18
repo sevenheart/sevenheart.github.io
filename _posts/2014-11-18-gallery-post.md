@@ -1,5 +1,5 @@
 ---
-type: photo
+type: redis哨兵机制
 title: Gallery Post
 date: 2014-11-18 15:45:20
 category: Photo
@@ -13,7 +13,7 @@ tags:
 description: Gallery Post Test. 测试图片类文章的显示。
 ---
 
-Nunc dignissim volutpat enim, non sollicitudin purus dignissim id. Nam sit amet urna eu velit lacinia eleifend. Proin auctor rhoncus ligula nec aliquet. Donec sodales molestie lacinia. Curabitur dictum faucibus urna at convallis. Aliquam in lectus at urna rutrum porta. In lacus arcu, molestie ut vestibulum ut, rhoncus sed eros. Sed et elit vitae risus pretium consectetur vel in mi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi tempus turpis quis lectus rhoncus adipiscing. Proin pulvinar placerat suscipit. Maecenas imperdiet, quam vitae varius auctor, enim mauris vulputate sapien, nec laoreet neque diam non quam.
+首先，每个哨兵节点每秒都会向主从服务器，其它的哨兵节点发送心跳包（检测是否在线），如果在配置时间内主节点都返回无效的回复，则该哨兵会认为主节点客观下线。为了确定主服务器是否真的下线，该哨兵会向其它哨兵节点询问，如果收到确认主服务器下线回复超过了规定值，则该哨兵节点会认为主服务器客观下线。 所有判断主服务器客观下线的哨兵都有机会成为负责下线主服务器的故障处理的主哨兵节点。它们在确定主服务器下线后，后发起选举，它会向其它哨兵节点发消息告诉它们自己要当主哨兵，让其它哨兵投票，在一次故障处理过程中每个哨兵只能投票一次，如果发起投票的哨兵的选票达到了半数以上，那么它就会成为主哨兵节点。所以说先到先得，如果某个哨兵已经投票给其它的哨兵，那么再有请求发来也不能再进行投票。 你提到的3/2+1=2.5这个半数就是1.5，大于1.5票就可以，比如一共三个哨兵，哨兵A判断主服务器客观下线，它发起投票，自己投自己一票，哨兵B投了它一票，这时候它有两票大于半数以上。当哨兵数量是4个时，确实是得有3票才算是半数以上。所以倾向于哨兵总数是奇数个，但不绝对。
 
 <!-- more -->
 
