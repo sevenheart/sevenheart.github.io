@@ -5,7 +5,7 @@
 
 # Site
 title: FranciscoBoy's blog
-subtitle: 想要的没人给，提升自己满足自己的野心
+subtitle: 想要的没人给，IT中摸爬滚打
 description :  高山仰止,景行行止.虽不能至,然心向往之。
 author: sevenheart
 # Support language: de, en, fr-FR, id, ja, ko, pt-BR, pt, ru, zh-Hans, zh-hk, zh-tw
@@ -375,7 +375,7 @@ han: false
 #swiftype_key:
 
 # Baidu Analytics ID
-#baidu_analytics:
+baidu_analytics: 31fa0495c3659c55819e9346c4c40e0a
 
 # Duoshuo ShortName
 #duoshuo_shortname:
