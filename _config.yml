@@ -217,7 +217,6 @@ font:
 #social:
   #LinkLabel: Link
 social:
-  LinkLabel: Link
   GitHub: https://github.com/sevenheart
   CSDN: https://me.csdn.net/xiaobailx
 
@@ -230,7 +229,7 @@ social_icons:
   enable: true
   # Icon Mappings.
   # KeyMapsToSocialItemKey: NameOfTheIconFromFontAwesome
-  GitHub: https://github.com/sevenheart
+  GitHub: github
   Twitter: twitter
   Weibo: weibo
 
