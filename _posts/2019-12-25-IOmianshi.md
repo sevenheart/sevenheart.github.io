@@ -85,3 +85,30 @@ jdk没有提供写好的NIO框架，需要用户通过这些提供的工具去�
 2.建立两个selector，分别由两个线程管理。一个负责注册所有的channel，并把channel同时注册到另一个selector上，另一个selector通过select()阻塞方法选取就绪的channel进行真正的读写操作。这样CPU就可以专注的去读写让cpu最高效了。
 
 3.每当有一个channel可执行就通过得到它相应的事件去触发之前注册的事件对应的handle即可。
+
+#### 堆外内存DirectBuffer的内存管理
+
+DirectBuffer内存回收主要有两种方式，一种是通过System.gc来回收，另一种是通过构造函数里创建的Cleaner对象来回收。
+
+由于堆外内存不在jvm的管理范围，所有无法通过jvm的GC去回收堆外内存。
+
+它是由native方法去分配内存的，通过虚引用可以完成对它的内存的释放。
+
+**System.gc流程：分配堆外内存时的GC**
+
+1.尝试分配内存，成功就退出，失败就继续。
+
+2.失败调用tryHandlePendingReference（**清理Cleaner队列**）来尝试清理堆外内存(最终调用的是Cleaner的clean方法，其实就是unsafe.freeMemory然后释放内存)，释放后再次分配。
+
+3.如果失败，调用system.gc()去触发FullGC然后尝试，如果失败之后sleep，每次sleep的时间是逐步增加的，规律是1, 2, 4, 8, 16, 32, 64, 128, 256 (total 511 ms ~ 0.5 s)。如果最终还没有可分配的内存，那么就会抛出OOM异常。
+**Cleaner对象回收流程：**
+
+1.通过Cleaner对象的clean方法进行回收就是unsafe.freeMemory然后释放内存。
+
+2.在每次新建一个DirectBuffer对象的时候，会同时创建一个Cleaner对象。
+
+3.    Cleaner对象的clean方法执行时机是JVM在判断该Cleaner对象关联的DirectBuffer已经不被任何对象引用了(也就是经过可达性分析判定为不可达的时候，此时虚引用被放入了关联的队列来跟踪这个对象的状态，根据判断这个虚引用列表把相应的Cleaner对象加入List)。此时Cleaner对象会被JVM挂到PendingList上。然后有一个固定的线程扫描这个List，如果遇到Cleaner对象，那么就执行clean方法。
+
+
+虚引用主要被用来 跟踪对象被垃圾回收的状态，通过查看引用队列中是否包含对象所对应的虚引用来判断它是否 即将被垃圾回收，从而采取行动（比如Cleaner对象会被JVM挂到PendingList上）。它并不被期待用来取得目标对象的引用，而目标对象被回收前，它的引用会被放入一个 ReferenceQueue 对象中，从而达到跟踪对象垃圾回收的作用。
+
