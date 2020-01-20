@@ -5,7 +5,7 @@
 
 # Site
 title: FranciscoBoy's blog
-subtitle: 想要的没人给，IT中摸爬滚打
+subtitle: 小白的进阶的见证
 description :  高山仰止,景行行止.虽不能至,然心向往之。
 author: sevenheart
 # Support language: de, en, fr-FR, id, ja, ko, pt-BR, pt, ru, zh-Hans, zh-hk, zh-tw
@@ -123,6 +123,7 @@ menu:
   #about: /about/
   archives: /archives/
   tags: /tags/
+  #about: /about/
   #sitemap: /sitemap.xml
   #commonweal: /404.html
 

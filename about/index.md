@@ -3,4 +3,5 @@ layout: page
 type: about
 ---
 
-Building...
+接入百度统计...............
+
