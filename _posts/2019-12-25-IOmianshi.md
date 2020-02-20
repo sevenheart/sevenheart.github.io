@@ -45,7 +45,7 @@ NIO是一种同步非阻塞的I/O模型，jdk对应 java.nio 包下，提供了 
 
 NIO为我们提供了与普通的IO（socket和serversocket）对应的两个socket类-------------socketChannel和serverSocketChannel。
 
-通过这两个类就可以在连接时配置是否异步。如果异步就是从channel读取数据到buffer中时可以同时去做其他的事情。在NIO中数据只能时channel和buffer的交互。
+通过这两个类就可以在连接时配置是否阻塞。如果就是从channel读取数据到buffer中时可以同时去做其他的事情。在NIO中数据只能时channel和buffer的交互。
 
 二、buffer区
 

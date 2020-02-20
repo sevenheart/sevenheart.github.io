@@ -161,10 +161,91 @@ public void postProcessBeanFactory(ConfigurableListableBeanFactory arg0)
 这两个方法，可以在spring容器实例化bean之后，在执行bean的初始化方法前后，添加一些自己的处理逻辑。
 BeanPostProcessor是在spring容器加载了beanDefinition并且实例化bean之后执行的。BeanPostProcessor的执行顺序是在BeanFactoryPostProcessor之后。**springAOP就是在这一步将目标对象通过动态代理转换成代理对象然后返回的。**
 
+1.他是在InitializingBean.afterPropertiesSet或者自定义的初始化方法之前去调用的（**InitializingBean和DisposableBean接口**确保Bean生成和销毁前后做点什么）。
+
+2.BeanPostProcessor.postProcessAfterInitialization是在InitializingBean.afterPropertiesSet或者自定义的初始化方法之后去调用的。
+
 ### 1.2.1.常见的BeanPostProcessor实现类
 
 - org.springframework.context.annotation.CommonAnnotationBeanPostProcessor：支持@Resource注解的注入
+
 - org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor：支持@Required注解的注入
+
 - org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor：支持@Autowired注解的注入
+
 - [org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor](https://link.zhihu.com/?target=https%3A//links.jianshu.com/go%3Fto%3Dhttp%3A%2F%2Forg.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor)：支持@PersistenceUnit和@PersistenceContext注解的注入
+
 - org.springframework.context.support.ApplicationContextAwareProcessor：用来为bean注入ApplicationContext等容器对象
+
+### 将自定义对象放入spring容器的方法：
+
+  FactoryBean是一个用来生产自定义bean的Bean，只要容器中可以把这个Bean的实现类加入那么容器就可以获取到自定义的Bean。
+
+public interface FactoryBean<T> {
+
+```java
+//返回的对象实例
+T getObject() throws Exception;
+//Bean的类型
+Class<?> getObjectType();
+//true是单例，false是非单例  在Spring5.0中此方法利用了JDK1.8的新特性变成了default方法，返回true
+boolean isSingleton();
+}
+```
+```java
+//FactoryBean接口的实现类
+@Component
+public class FactoryBeanLearn implements FactoryBean {
+
+    @Override
+    public Object getObject() throws Exception {
+        //这个Bean是我们自己new的，这里我们就可以控制Bean的创建过程了
+        return new FactoryBeanServiceImpl();
+    }
+
+    @Override
+    public Class<?> getObjectType() {
+        return FactoryBeanService.class;
+    }
+
+    @Override
+    public boolean isSingleton() {
+        return true;
+    }
+}
+//接口
+public interface FactoryBeanService {
+
+    /**
+     * 测试FactoryBean
+     */
+    void testFactoryBean();
+}
+//实现类
+public class FactoryBeanServiceImpl implements FactoryBeanService {
+    /**
+     * 测试FactoryBean
+     */
+    @Override
+    public void testFactoryBean() {
+        System.out.println("我是FactoryBean的一个测试类。。。。");
+    }
+}
+//单测
+@Test
+public void test() {
+        ClassPathXmlApplicationContext cac = new ClassPathXmlApplicationContext("classpath:com/zkn/spring/learn/base/applicationContext.xml");
+        FactoryBeanService beanService = cac.getBean(FactoryBeanService.class);
+        beanService.testFactoryBean();
+    }
+```
+
+调用getBean(Class requiredType)方法根据类型来获取容器中的bean的时候，对应的例子就是：根据类型com.zkn.spring.learn.service.FactoryBeanService来从Spring容器中获取Bean**(首先明确的一点是在Spring容器中没有FactoryBeanService类型的BeanDefinition。但是却有一个Bean和FactoryBeanService这个类型有一些关系)**。
+
+Spring在根据type去获取Bean的时候，会先获取到beanName。获取beanName的过程是：先循环Spring容器中的所有的beanName，然后根据beanName获取对应的BeanDefinition，如果当前bean是FactoryBean的类型，则会从Spring容器中根据beanName获取对应的Bean实例，接着调用获取到的Bean实例的getObjectType方法获取到Class类型，判断此Class类型和我们传入的Class是否是同一类型。如果是则返回beanName，对应到我们这里就是：根据factoryBeanLearn获取到FactoryBeanLearn实例，调用FactoryBeanLearn的getObjectType方法获取到返回值FactoryBeanService.class。和我们传入的类型一致，所以这里获取的beanName为factoryBeanLearn。换句话说这里我们把factoryBeanLearn这个beanName映射为了：FactoryBeanService类型。即FactoryBeanService类型对应的beanName为factoryBeanLearn这是很重要的一点。在这里我们也看到了FactoryBean中三个方法中的一个所发挥作用的地方。
+
+### 依赖注入过程
+
+当一个bean(UserController对象)被创建时，该bean所拥有的依赖（userService）就要被注入（实例化），依赖注入过程同样是调用BeanFactory，获取所依赖的属性（依赖注入的方式：构造方法，set方式，注解方式等， 获取方法不尽相同），再查找xml配置文件，通过反射实例化对应的依赖，并将实例化后的依赖（userService）封装（反射相关操作）进bean(UserController对象)中，至此，依赖注入完成。
+
+这里补充一个特殊情况：比如Service1引用了Service2，而Service2也引用了Service1。如果现在正在创建Service1，发现它依赖了Service2，在向Service1注入Service2的过程中肯定要先去创建Service2。这时候发现又要创建Service1，当然不能再创建一个Service1了，而是先将未初始化好的Service1引用先注入到Service2中，然后初始化Service2后再回过来注入到Service1中。
