@@ -17,15 +17,11 @@ tags:
 
 ##### 步骤一：
 
-![../../../sources/img/Algorithm/sort/guibingone.png]()
-
-
+![](../../../sources/img/Algorithm/sort/guibingone.png)
 
 ##### 步骤二：
 
-![../../../sources/img/Algorithm/sort/guibingtwo.png]()
-
-
+![](../../../sources/img/Algorithm/sort/guibingtwo.png)
 
 ##### Java代码实现：
 
