@@ -7,10 +7,6 @@ tags:
 - 排序算法
 ---
 
-### 归并排序
-
-### 排序
-
 ### 希尔排序
 
 ##### 复杂度：
@@ -25,7 +21,7 @@ tags:
 
 
 
-![../../../../sources/img/Algorithm/sort/xier.jpg]()
+![../../../sources/img/Algorithm/sort/xier.jpg]()
 
 
 

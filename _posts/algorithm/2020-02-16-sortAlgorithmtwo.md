@@ -7,8 +7,6 @@ tags:
 - 排序算法
 ---
 
-### 归并排序
-
 ### 快速排序
 
 ##### 复杂度：
@@ -25,7 +23,7 @@ tags:
 
 使得小于基准值的值放在基准值的左边，将大于基准值的值放在基准值的右边。依次从左右数组再找基准值去进行排序。直到无法再分时说明排序已经完成了。
 
-![../../../../sources/img/Algorithm/sort/quicksort.png]()
+![../../../sources/img/Algorithm/sort/quicksort.png]()
 
 
 
